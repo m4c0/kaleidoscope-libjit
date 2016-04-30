@@ -1,0 +1,6 @@
+*.swp
+*.o
+parser.c
+parser.h
+lexer.c
+
