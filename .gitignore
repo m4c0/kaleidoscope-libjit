@@ -1,6 +1,7 @@
 *.swp
 *.o
-parser.c
-parser.h
+kaleidoscope
+parser.cpp
+parser.hpp
 lexer.c
 

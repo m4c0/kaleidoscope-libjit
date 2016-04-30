@@ -1,5 +1,11 @@
 %{
-#include "parser.h"
+typedef void * ExprAST;
+typedef void * FunctionAST;
+typedef void * PrototypeAST;
+typedef void * StringList;
+typedef void * ExprList;
+
+#include "parser.hpp"
 %}
 
 %%
@@ -7,6 +13,10 @@
 [ \n\t] {}
 
 #[^\n]* {}
+
+[,()] { return *yytext; }
+
+[-+*/] { yylval.c = strdup(yytext); return OPER; }
 
 def { return DEF; }
 extern { return EXTERN; }
