@@ -10,6 +10,7 @@ extern "C" void yyerror(const char *);
     const char * c;
 
     ExprAST * ex;
+    ExternAST * fe;
     FunctionAST * fn;
     PrototypeAST * pt;
 
@@ -26,7 +27,7 @@ extern "C" void yyerror(const char *);
 %type <fn> definition
 %type <ex> expression
 %type <exl> exprParameters
-%type <pt> extern
+%type <fe> extern
 %type <ex> identifier
 %type <ex> number
 %type <ex> primary
@@ -40,6 +41,7 @@ extern "C" void yyerror(const char *);
 
 %left '+' '-'
 %left '*' '/'
+%left '<' '>'
 
 %%
 
@@ -58,7 +60,7 @@ topLevelExpr: expression { $$ = new FunctionAST(new PrototypeAST("", std::vector
 definition: DEF prototype expression { $$ = new FunctionAST($2, $3); }
           ;
 
-extern: EXTERN prototype { $$ = $2; }
+extern: EXTERN prototype { $$ = new ExternAST($2); }
       ;
 
 prototype: IDENTIFIER '(' protoParameters ')' { $$ = new PrototypeAST($1, *$3); }

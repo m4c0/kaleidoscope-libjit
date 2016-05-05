@@ -3,16 +3,16 @@ OBJS=lexer.o main.o parser.o
 all: kaleidoscope
 
 clean:
-	rm -f $(OBJS) parser.cpp parser.h lexer.c
+	rm -f $(OBJS) parser.cpp parser.hpp lexer.c
 
 kaleidoscope: $(OBJS)
-	gcc $(OBJS) -o $@ -lstdc++
+	gcc $(OBJS) -o $@ -lstdc++ -ljit
 
 %.o: %.c
-	gcc -c $< -o $@
+	gcc -g -c $< -o $@
 
 %.o: %.cpp main.hpp
-	g++ -c $< -o $@
+	g++ -g -std=c++11 -c $< -o $@
 
 %.cpp: %.y main.hpp
 	yacc -d -o $@ $<
@@ -20,6 +20,6 @@ kaleidoscope: $(OBJS)
 %.c: %.l
 	lex -o $@ $<
 
-lexer.o: parser.h
-parser.h: parser.cpp
+lexer.o: parser.hpp
+parser.hpp: parser.cpp
 
